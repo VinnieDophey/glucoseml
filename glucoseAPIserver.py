@@ -6,7 +6,10 @@ import tensorflow as tf
 import io
 from fastapi import FastAPI, File, UploadFile
 import os
+import keras
 
+print("TensorFlow:", tf.__version__)
+print("Keras:", keras.__version__)
 # Api
 app = FastAPI()
 
