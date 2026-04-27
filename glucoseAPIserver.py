@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import backend as K
 import io
 from fastapi import FastAPI, File, UploadFile
 import os
@@ -18,13 +17,10 @@ model_path = os.path.join(
     "2301TrainedModel.keras"
 )
 
-model = None
-
-def load_model_once():
+@app.on_event("startup")
+def startup_event():
     global model
-    if model is None:
-        model = tf.keras.models.load_model(model_path)
-    return model    
+    model = tf.keras.models.load_model(model_path)
 
 @app.get("/")
 async def root():
@@ -35,7 +31,6 @@ async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     newdf = pd.read_csv(io.BytesIO(contents))
     
-    model = load_model_once()
     # Load data
     newdf['Timestamp'] = pd.to_datetime(newdf['Timestamp'], format='%d/%m/%Y %H:%M')
     newdf = newdf.dropna(subset=['Timestamp'])
