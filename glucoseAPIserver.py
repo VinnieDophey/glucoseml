@@ -8,7 +8,6 @@ import io
 from fastapi import FastAPI, File, UploadFile
 import os
 
-
 # Api
 app = FastAPI()
 
@@ -19,8 +18,14 @@ model_path = os.path.join(
     "2301TrainedModel.keras"
 )
 
-model = tf.keras.models.load_model(model_path)
-    
+model = None
+
+def load_model_once():
+    global model
+    if model is None:
+        model = tf.keras.models.load_model(model_path)
+    return model    
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
