@@ -1,6 +1,7 @@
-pandas
-numpy
-tensorflow
+python-3.10.13
 fastapi
-python-multipart
 uvicorn
+python-multipart
+numpy==1.26.4
+pandas==2.2.2
+tensorflow==2.15.0
