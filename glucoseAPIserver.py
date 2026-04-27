@@ -32,10 +32,10 @@ async def root():
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    
     contents = await file.read()
     newdf = pd.read_csv(io.BytesIO(contents))
     
+    model = load_model_once()
     # Load data
     newdf['Timestamp'] = pd.to_datetime(newdf['Timestamp'], format='%d/%m/%Y %H:%M')
     newdf = newdf.dropna(subset=['Timestamp'])
