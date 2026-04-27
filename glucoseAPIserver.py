@@ -6,14 +6,20 @@ import tensorflow as tf
 from tensorflow.keras import backend as K
 import io
 from fastapi import FastAPI, File, UploadFile
+import os
+
 
 # Api
 app = FastAPI()
 
 # Load model
-model = tf.keras.models.load_model(
-    '/saved_models/2301TrainedModel.keras'
-) #later prolly vary model for lookback 
+model_path = os.path.join(
+    os.path.dirname(__file__),
+    "saved_models",
+    "2301TrainedModel.keras"
+)
+
+model = tf.keras.models.load_model(model_path)
     
 @app.get("/")
 async def root():
