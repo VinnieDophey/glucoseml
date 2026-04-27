@@ -12,7 +12,7 @@ app = FastAPI()
 
 # Load model
 model = tf.keras.models.load_model(
-    '/Users/vincentpham/Documents/glucoseML/saved_models/2301TrainedModel.keras'
+    '/saved_models/2301TrainedModel.keras'
 ) #later prolly vary model for lookback 
     
 @app.get("/")
@@ -43,8 +43,6 @@ async def predict(file: UploadFile = File(...)):
     
     # Prediction
     predictedList = []
-
-    print(f"Last timestamp in new file: {last_timestamp}")
 
     for step in range(1, 13): #1hr
         pred = model.predict(current_window.reshape(1, *current_window.shape), verbose=0)
